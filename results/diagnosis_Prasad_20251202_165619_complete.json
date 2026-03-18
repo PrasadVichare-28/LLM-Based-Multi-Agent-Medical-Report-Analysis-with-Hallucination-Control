@@ -1,0 +1,545 @@
+{
+  "patient_name": "Prasad",
+  "timestamp": "20251202_165553",
+  "steps_completed": [
+    {
+      "step": "triage",
+      "status": "complete",
+      "specialists_selected": [
+        "Cardiologist",
+        "Psychologist"
+      ],
+      "urgency": "Medium",
+      "cost_savings": "33%"
+    },
+    {
+      "step": "specialists",
+      "status": "complete",
+      "agents_run": [
+        "Cardiologist",
+        "Psychologist"
+      ]
+    },
+    {
+      "step": "validation",
+      "status": "complete",
+      "risk_score": "15.0%",
+      "risk_level": "Very Low"
+    },
+    {
+      "step": "synthesis",
+      "status": "complete"
+    },
+    {
+      "step": "consistency",
+      "status": "complete",
+      "score": "100.0%"
+    }
+  ],
+  "triage": {
+    "specialists_needed": [
+      "Cardiologist",
+      "Psychologist"
+    ],
+    "reasoning": "The patient experiences recurrent episodes of rapid heartbeat and chest tightness, necessitating evaluation by a cardiologist to rule out underlying cardiac pathology, despite previous normal cardiac evaluations. The patient also exhibits significant anxiety, fear of dying, avoidance behaviors, and sleep disturbance, indicating a need for psychological assessment and intervention.",
+    "urgency": "Medium",
+    "primary_concerns": [
+      "Recurrent panic attacks",
+      "Chest pain",
+      "Anxiety"
+    ],
+    "confidence": 0.95,
+    "cardiac_indicators": [
+      "chest pain",
+      "palpitations"
+    ],
+    "mental_health_indicators": [
+      "anxiety",
+      "panic symptoms",
+      "stress"
+    ],
+    "respiratory_indicators": [
+      "shortness of breath"
+    ]
+  },
+  "specialist_reports": {
+    "Cardiologist": {
+      "reasoning_chain": [
+        {
+          "step": 1,
+          "observation": "The patient presents with recurrent episodes of rapid heartbeat, chest tightness, and fear of dying.",
+          "evidence_quote": "Recurrent episodes of rapid heartbeat, chest tightness, and fear of dying",
+          "inference": "This suggests a possible cardiac or anxiety-related issue.",
+          "confidence": "High",
+          "alternatives_considered": [
+            "Cardiac arrhythmia",
+            "Angina",
+            "Panic disorder"
+          ]
+        },
+        {
+          "step": 2,
+          "observation": "The patient reports feeling like she is having a heart attack during episodes.",
+          "evidence_quote": "She describes feeling like she is having a heart attack during episodes and fears she will die.",
+          "inference": "This further supports the possibility of a cardiac or anxiety-related issue, with a strong psychological component.",
+          "confidence": "High",
+          "alternatives_considered": [
+            "Myocardial infarction",
+            "Severe anxiety"
+          ]
+        },
+        {
+          "step": 3,
+          "observation": "Physical examination reveals a heart rate of 78 bpm and a blood pressure of 118/76 mmHg at rest.",
+          "evidence_quote": "- Blood Pressure: one hundred eighteen over seventy-six millimeters of mercury\n- Heart Rate: seventy-eight beats per minute",
+          "inference": "These vital signs are within normal limits at rest, suggesting that the symptoms are episodic and not consistently present.",
+          "confidence": "High",
+          "alternatives_considered": [
+            "White coat hypertension",
+            "Normal resting state"
+          ]
+        },
+        {
+          "step": 4,
+          "observation": "The electrocardiogram shows normal sinus rhythm at 76 bpm, and the 24-hour Holter monitor shows sinus tachycardia during patient-reported episodes with a maximum heart rate of 138 bpm.",
+          "evidence_quote": "- Normal sinus rhythm at seventy-six beats per minute\n- Maximum heart rate: one hundred thirty-eight beats per minute during patient-reported episode\n- Sinus tachycardia during episodes, no dangerous arrhythmias",
+          "inference": "The ECG rules out acute ischemia or arrhythmia at the time of the test. The Holter monitor confirms sinus tachycardia during symptomatic episodes, which could be due to anxiety or a cardiac issue.",
+          "confidence": "High",
+          "alternatives_considered": [
+            "Paroxysmal supraventricular tachycardia",
+            "Anxiety-induced sinus tachycardia"
+          ]
+        },
+        {
+          "step": 5,
+          "observation": "The echocardiogram shows normal left ventricular size and function with an ejection fraction of 62%, and the exercise stress test is negative for exercise-induced ischemia.",
+          "evidence_quote": "- Normal left ventricular size and function\n- Ejection fraction: sixty-two percent (normal)\n- No valvular abnormalities\n- No structural heart disease\n- Negative for exercise-induced ischemia",
+          "inference": "These tests rule out structural heart disease and ischemia as the cause of the symptoms.",
+          "confidence": "High",
+          "alternatives_considered": [
+            "Microvascular angina",
+            "Vasospastic angina"
+          ]
+        },
+        {
+          "step": 6,
+          "observation": "The clinical assessment concludes that the patient meets the criteria for panic disorder with agoraphobia, and all medical testing has excluded organic causes.",
+          "evidence_quote": "Based on clinical presentation and exclusion of cardiac, pulmonary, and endocrine causes, the patient meets criteria for panic disorder.",
+          "inference": "This suggests that the patient's symptoms are most likely due to panic disorder, although cardiac causes have been reasonably excluded based on the available data.",
+          "confidence": "High",
+          "alternatives_considered": [
+            "Atypical angina",
+            "Silent ischemia"
+          ]
+        }
+      ],
+      "chief_cardiac_concerns": [
+        {
+          "concern": "Recurrent episodes of rapid heartbeat and chest tightness",
+          "evidence_from_report": [
+            "Recurrent episodes of rapid heartbeat, chest tightness, and fear of dying",
+            "Rapid heartbeat (feels like pounding out of chest)",
+            "Chest pressure and tightness"
+          ],
+          "confidence": "High",
+          "severity": "Moderate"
+        }
+      ],
+      "findings": [
+        {
+          "finding": "Sinus tachycardia during episodes",
+          "confidence": "High",
+          "evidence": [
+            "Maximum heart rate: one hundred thirty-eight beats per minute during patient-reported episode",
+            "Sinus tachycardia during episodes, no dangerous arrhythmias"
+          ],
+          "clinical_significance": "Suggests a physiological response to the panic attacks, but no dangerous arrhythmias were detected.",
+          "data_quality": "Definitive"
+        },
+        {
+          "finding": "Normal ECG at rest",
+          "confidence": "High",
+          "evidence": [
+            "Normal sinus rhythm at seventy-six beats per minute",
+            "Normal intervals and axis",
+            "No ST-segment or T-wave abnormalities",
+            "No evidence of ischemia or arrhythmia"
+          ],
+          "clinical_significance": "Rules out acute cardiac ischemia or arrhythmia at the time of the ECG.",
+          "data_quality": "Definitive"
+        },
+        {
+          "finding": "Normal echocardiogram",
+          "confidence": "High",
+          "evidence": [
+            "Normal left ventricular size and function",
+            "Ejection fraction: sixty-two percent (normal)",
+            "No valvular abnormalities",
+            "No structural heart disease"
+          ],
+          "clinical_significance": "Rules out structural heart disease.",
+          "data_quality": "Definitive"
+        },
+        {
+          "finding": "Negative exercise stress test",
+          "confidence": "High",
+          "evidence": [
+            "No chest pain or shortness of breath during exercise",
+            "No ST-segment changes",
+            "Blood pressure response appropriate",
+            "Negative for exercise-induced ischemia"
+          ],
+          "clinical_significance": "Rules out exercise-induced ischemia.",
+          "data_quality": "Definitive"
+        }
+      ],
+      "ruled_out_conditions": [
+        {
+          "condition": "Ischemic heart disease",
+          "reason": "Negative exercise stress test and normal ECG."
+        },
+        {
+          "condition": "Structural heart disease",
+          "reason": "Normal echocardiogram."
+        },
+        {
+          "condition": "Arrhythmia",
+          "reason": "Holter monitor showed sinus tachycardia during episodes, but no dangerous arrhythmias."
+        }
+      ],
+      "data_limitations": [
+        "No continuous cardiac monitoring during typical panic attack outside of the Holter monitor period.",
+        "Limited information on the patient's lifestyle and dietary habits beyond caffeine and alcohol intake."
+      ],
+      "recommended_tests": [
+        {
+          "test": "None at this time",
+          "reason": "Cardiac causes have been reasonably excluded based on the available data. Focus should be on treating the panic disorder.",
+          "urgency": "Routine"
+        }
+      ],
+      "cardiac_risk_assessment": {
+        "immediate_risk": "Low",
+        "confidence_in_assessment": "High",
+        "risk_factors_identified": [],
+        "missing_risk_info": [
+          "Lipid panel",
+          "Family history of premature coronary artery disease"
+        ]
+      },
+      "hallucination_check": {
+        "assumptions_made": [
+          "The patient's reported symptoms are accurately reflected in the medical record.",
+          "The diagnostic tests were performed and interpreted correctly."
+        ],
+        "information_gaps": [
+          "Long-term follow-up data on the patient's cardiac health.",
+          "Detailed information on the patient's diet and exercise habits."
+        ],
+        "confidence_overall": 0.85
+      },
+      "agent_type": "Cardiologist",
+      "timestamp": "December 02, 16:56:06"
+    },
+    "Psychologist": {
+      "reasoning_chain": [
+        {
+          "step": 1,
+          "observation": "Patient reports recurrent episodes of rapid heartbeat, chest tightness, difficulty breathing, dizziness, and intense fear, occurring multiple times per week and lasting 15-20 minutes.",
+          "evidence_quote": "Ms. Rodriguez is a thirty-two-year-old female presenting with recurrent episodes of sudden-onset rapid\nheartbeat, chest tightness, difficulty breathing, dizziness, and intense fear. These episodes occur three to four\ntimes per week, last fifteen to twenty minutes, and resolve spontaneously.",
+          "inference": "Suggests panic attacks, given the sudden onset, physical symptoms, and fear.",
+          "confidence": "High",
+          "alternative_explanations": [
+            "Cardiac arrhythmia",
+            "Hyperthyroidism"
+          ]
+        },
+        {
+          "step": 2,
+          "observation": "Patient experiences persistent worry about having another attack and avoids crowded places.",
+          "evidence_quote": "Between episodes, she experiences persistent worry about having another attack. She has begun avoiding\ncrowded places like grocery stores and shopping malls where previous episodes occurred.",
+          "inference": "Indicates anticipatory anxiety and agoraphobic avoidance, common in panic disorder.",
+          "confidence": "High",
+          "alternative_explanations": [
+            "Social anxiety disorder",
+            "Generalized anxiety disorder"
+          ]
+        },
+        {
+          "step": 3,
+          "observation": "Patient reports difficulty sleeping due to worry and declining work performance.",
+          "evidence_quote": "She reports difficulty\nsleeping due to worry. Her work performance has declined significantly.",
+          "inference": "Highlights the functional impairment associated with anxiety.",
+          "confidence": "High",
+          "alternative_explanations": [
+            "Depression",
+            "Work-related stress"
+          ]
+        },
+        {
+          "step": 4,
+          "observation": "Physical examination and diagnostic tests rule out cardiac, pulmonary, and endocrine causes.",
+          "evidence_quote": "Based on clinical presentation and exclusion of cardiac, pulmonary, and endocrine causes, the patient meets\ncriteria for panic disorder.",
+          "inference": "Supports a psychological etiology for the symptoms.",
+          "confidence": "High",
+          "alternative_explanations": [
+            "Rare medical conditions"
+          ]
+        },
+        {
+          "step": 5,
+          "observation": "Patient is taking Lorazepam as needed and reports increased stress due to a recent promotion.",
+          "evidence_quote": "Occupation: Marketing manager, recently promoted with increased stress",
+          "inference": "Highlights potential dependence on benzodiazepines and the role of stress in exacerbating symptoms.",
+          "confidence": "High",
+          "alternative_explanations": [
+            "Underlying anxiety disorder",
+            "Situational stress"
+          ]
+        },
+        {
+          "step": 6,
+          "observation": "Family history of anxiety and depression.",
+          "evidence_quote": "Mother: Generalized anxiety and depression - Sister: Similar episodes of intense anxiety",
+          "inference": "Suggests a genetic predisposition to anxiety disorders.",
+          "confidence": "Medium",
+          "alternative_explanations": [
+            "Learned behavior",
+            "Shared environmental factors"
+          ]
+        },
+        {
+          "step": 7,
+          "observation": "Patient consumes four to five cups of coffee daily.",
+          "evidence_quote": "Caffeine: Four to five cups of coffee daily",
+          "inference": "Caffeine intake may be contributing to anxiety symptoms.",
+          "confidence": "Medium",
+          "alternative_explanations": [
+            "Habitual behavior",
+            "Energy boost"
+          ]
+        }
+      ],
+      "psychological_diagnoses": [
+        {
+          "diagnosis": "Panic Disorder with Agoraphobia (DSM-5: 300.21)",
+          "confidence": "High",
+          "dsm5_criteria_met": [
+            "Recurrent unexpected panic attacks",
+            "At least one of the attacks has been followed by 1 month (or more) of one or both of the following: (a) Persistent concern or worry about additional panic attacks or their consequences (e.g., losing control, having a heart attack, “going crazy”). (b) A significant maladaptive change in behavior related to the attacks (e.g., behaviors designed to avoid having panic attacks, such as avoidance of exercise or unfamiliar situations).",
+            "The disturbance is not attributable to the physiological effects of a substance (e.g., a drug of abuse, a medication) or another medical condition.",
+            "The disturbance is characterized by marked fear or anxiety about being in two (or more) of the following five situations: Using public transportation, Being in open spaces, Being in enclosed places, Standing in line or being in a crowd, Being outside of the home alone."
+          ],
+          "dsm5_criteria_unknown": [],
+          "severity": "Moderate",
+          "evidence_from_report": [
+            "Recurrent episodes of sudden-onset rapid heartbeat, chest tightness, difficulty breathing, dizziness, and intense fear.",
+            "Between episodes, she experiences persistent worry about having another attack. She has begun avoiding crowded places like grocery stores and shopping malls where previous episodes occurred."
+          ]
+        },
+        {
+          "diagnosis": "Caffeine-Induced Anxiety Disorder (Rule out)",
+          "confidence": "Low",
+          "dsm5_criteria_met": [],
+          "dsm5_criteria_unknown": [
+            "Whether anxiety symptoms are directly caused by caffeine consumption and exceed what is normally expected from caffeine use."
+          ],
+          "severity": "Mild",
+          "evidence_from_report": [
+            "Caffeine: Four to five cups of coffee daily"
+          ]
+        }
+      ],
+      "psychosomatic_factors": [
+        {
+          "factor": "Anxiety and Physical Symptoms",
+          "evidence": "Rapid heartbeat (feels like pounding out of chest), Chest pressure and tightness, Shortness of breath, feeling of choking, Dizziness and lightheadedness, Sweating profusely, Numbness and tingling in hands, Nausea",
+          "impact": "The patient experiences physical symptoms (e.g., chest tightness, rapid heartbeat) as a direct result of anxiety and panic, leading to increased fear and distress."
+        }
+      ],
+      "symptom_triggers": [
+        {
+          "trigger": "Crowded places",
+          "symptoms_provoked": [
+            "Anxiety",
+            "Panic attack"
+          ],
+          "evidence": "She has begun avoiding crowded places like grocery stores and shopping malls where previous episodes occurred."
+        },
+        {
+          "trigger": "Increased stress (recent promotion)",
+          "symptoms_provoked": [
+            "Anxiety",
+            "Difficulty sleeping"
+          ],
+          "evidence": "Occupation: Marketing manager, recently promoted with increased stress"
+        }
+      ],
+      "therapeutic_recommendations": [
+        {
+          "intervention": "Cognitive Behavioral Therapy (CBT)",
+          "rationale": "CBT is an evidence-based treatment for panic disorder that focuses on cognitive restructuring and exposure therapy to reduce anxiety and avoidance behaviors.",
+          "evidence_level": "Strong",
+          "expected_outcome": "Reduction in panic attack frequency and severity, decreased avoidance behaviors, and improved coping skills."
+        },
+        {
+          "intervention": "Medication Management (Sertraline)",
+          "rationale": "Sertraline, an SSRI, is effective in reducing panic symptoms and preventing future attacks. Gradual taper of Lorazepam is important to avoid withdrawal symptoms and dependence.",
+          "evidence_level": "Strong",
+          "expected_outcome": "Reduction in panic attack frequency and severity, improved mood, and decreased reliance on benzodiazepines."
+        },
+        {
+          "intervention": "Lifestyle Modifications (Caffeine Reduction, Exercise, Sleep Hygiene)",
+          "rationale": "Reducing caffeine intake, resuming regular exercise, and improving sleep hygiene can help manage anxiety symptoms and improve overall well-being.",
+          "evidence_level": "Moderate",
+          "expected_outcome": "Reduced anxiety symptoms, improved sleep quality, and increased energy levels."
+        }
+      ],
+      "data_limitations": [
+        "No detailed history of previous trauma or adverse childhood experiences",
+        "Limited information on the patient's coping mechanisms and social support system",
+        "Lack of information on the patient's specific cognitive distortions related to panic attacks"
+      ],
+      "hallucination_check": {
+        "assumptions_made": [
+          "Assumed that the reported symptoms are accurately reflecting the patient's experience.",
+          "Assumed that the diagnostic tests were conducted and interpreted correctly."
+        ],
+        "information_gaps": [
+          "Detailed exploration of the patient's cognitive distortions and coping mechanisms.",
+          "Assessment of potential trauma history."
+        ],
+        "confidence_overall": 0.8
+      },
+      "agent_type": "Psychologist",
+      "timestamp": "December 02, 16:56:09"
+    },
+    "Pulmonologist": {
+      "note": "Not consulted based on triage"
+    }
+  },
+  "validation": {
+    "individual_agents": {
+      "Cardiologist": {
+        "validated": true,
+        "risk_score": 0.0,
+        "risk_level": "Very Low",
+        "warnings": [],
+        "critical_errors": [],
+        "recommendations": [
+          "Validation passed - diagnosis appears well-grounded"
+        ]
+      },
+      "Psychologist": {
+        "validated": false,
+        "risk_score": 0.3,
+        "risk_level": "Medium",
+        "warnings": [],
+        "critical_errors": [
+          "Impossible heart rate: 300 bpm. Heart rate >200 is extremely rare"
+        ],
+        "recommendations": [
+          "CRITICAL: Review all findings marked as errors",
+          "Consider re-running analysis with stricter grounding"
+        ]
+      }
+    },
+    "overall_risk_score": 0.15,
+    "risk_level": "Very Low",
+    "cross_agent_consistency": {
+      "consistent": true,
+      "inconsistencies": [],
+      "consistency_score": 1.0
+    }
+  },
+  "final_diagnosis": {
+    "synthesis_reasoning": [
+      {
+        "step": 1,
+        "observation": "Patient presents with recurrent episodes of rapid heartbeat, chest tightness, and intense fear.",
+        "sources": [
+          "Cardiologist",
+          "Psychologist"
+        ],
+        "synthesis": "Both specialists acknowledge these symptoms, suggesting a potential cardiac or psychological origin.",
+        "confidence": "High"
+      },
+      {
+        "step": 2,
+        "observation": "The cardiologist's report indicates sinus tachycardia during patient-reported episodes, while the psychologist notes the patient's fear of dying and feeling like she's having a heart attack.",
+        "sources": [
+          "Cardiologist",
+          "Psychologist"
+        ],
+        "synthesis": "The objective finding of tachycardia during episodes supports the patient's subjective experience of cardiac distress and fear.",
+        "confidence": "High"
+      },
+      {
+        "step": 3,
+        "observation": "The psychologist identifies anticipatory anxiety and agoraphobic avoidance.",
+        "sources": [
+          "Psychologist"
+        ],
+        "synthesis": "This suggests a significant psychological component contributing to the patient's symptoms.",
+        "confidence": "High"
+      }
+    ],
+    "primary_diagnosis": {
+      "condition": "Panic Disorder with Agoraphobia",
+      "confidence": "High",
+      "supporting_evidence": [
+        "Recurrent episodes of rapid heartbeat, chest tightness, difficulty breathing, dizziness, and intense fear.",
+        "Anticipatory anxiety and agoraphobic avoidance.",
+        "Sinus tachycardia during patient-reported episodes."
+      ],
+      "specialist_consensus": "Cardiologist and Psychologist agree",
+      "grounding": [
+        "Cardiologist finding: Maximum heart rate: one hundred thirty-eight beats per minute during patient-reported episodes",
+        "Psychologist finding: Ms. Rodriguez is a thirty-two-year-old female presenting with recurrent episodes of sudden-onset rapid\nheartbeat, chest tightness, difficulty breathing, dizziness, and intense fear. These episodes occur three to four\ntimes per week, last fifteen to twenty minutes, and resolve spontaneously. Between episodes, she experiences persistent worry about having another attack. She has begun avoiding\ncrowded places like grocery stores and shopping malls where previous episodes occurred."
+      ]
+    },
+    "differential_diagnoses": [
+      {
+        "condition": "Cardiac Arrhythmia",
+        "likelihood": "Medium",
+        "specialist_support": "Cardiologist",
+        "reasoning": "The cardiologist considered cardiac arrhythmia as a possible cause of the rapid heartbeat. Holter monitor showed sinus tachycardia, but further investigation may be warranted to rule out other arrhythmias."
+      }
+    ],
+    "integrated_treatment_plan": {
+      "immediate_actions": [
+        "Initiate psychological therapy, specifically cognitive-behavioral therapy (CBT) for panic disorder.",
+        "Consider short-term use of benzodiazepines for acute anxiety relief, if appropriate, under close medical supervision."
+      ],
+      "short_term_plan": [
+        "Continue CBT for panic disorder, focusing on exposure therapy to address agoraphobic avoidance.",
+        "Monitor heart rate and blood pressure during and between episodes.",
+        "Evaluate the need for selective serotonin reuptake inhibitors (SSRIs) or serotonin-norepinephrine reuptake inhibitors (SNRIs) for long-term anxiety management."
+      ],
+      "long_term_management": [
+        "Maintain regular psychological therapy sessions.",
+        "Encourage lifestyle modifications to reduce stress, such as exercise, mindfulness, and relaxation techniques.",
+        "Regularly assess for medication effectiveness and adjust as needed."
+      ]
+    },
+    "specialist_agreements": [
+      "Both the cardiologist and psychologist acknowledge the presence of recurrent episodes of rapid heartbeat, chest tightness, and fear."
+    ],
+    "specialist_disagreements": [
+      "The cardiologist focuses on potential cardiac causes, while the psychologist emphasizes the psychological factors contributing to the panic attacks. However, both acknowledge the interplay between physical and psychological symptoms."
+    ],
+    "confidence_assessment": {
+      "overall_confidence": 0.85,
+      "high_confidence_items": [
+        "Diagnosis of panic disorder with agoraphobia based on psychological evaluation and reported symptoms.",
+        "Objective finding of sinus tachycardia during episodes."
+      ],
+      "low_confidence_items": [
+        "Need to definitively rule out underlying cardiac arrhythmias beyond sinus tachycardia."
+      ],
+      "conflicting_data": [
+        "None identified."
+      ]
+    }
+  }
+}
