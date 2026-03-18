@@ -357,21 +357,6 @@ graph TD
     style F fill:#e8eaf6,stroke:#3949ab,stroke-width:1px,color:#000000
 ```
 
----
-
-## 👥 Contributors
-
-| Name | Role |
-|------|------|
-| **Parth Kanani** | Developer |
-| **Prasad Vichare** | Developer |
-| **Sounia Kaltimi** | Developer |
-| **Deepesh Mehta** | Developer |
-
-*University of Illinois Chicago — IDS 517*
-
----
-
 ## 📄 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
