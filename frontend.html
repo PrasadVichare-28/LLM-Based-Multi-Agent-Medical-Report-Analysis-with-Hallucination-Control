@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Diagnosis AI - Advanced Healthcare Intelligence</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary-color: #06b6d4;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --dark: #1e293b;
+            --dark-light: #334155;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --shadow-lg: rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--dark);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-radius: 16px;
+            padding: 30px 40px;
+            box-shadow: 0 10px 40px var(--shadow-lg);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: white;
+        }
+
+        .header-title h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .header-title p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .status-badge {
+            padding: 8px 16px;
+            background: #10b98120;
+            color: var(--success-color);
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--success-color);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Main Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 30px;
+        }
+
+        /* Upload Section */
+        .upload-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 40px var(--shadow-lg);
+            height: fit-content;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .file-upload {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: var(--light);
+        }
+
+        .file-upload:hover {
+            border-color: var(--primary-color);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .file-upload.dragover {
+            border-color: var(--primary-color);
+            background: rgba(37, 99, 235, 0.1);
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            color: var(--primary-color);
+        }
+
+        .upload-text {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+        .upload-hint {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-preview {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            background: var(--light);
+            border-radius: 10px;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .file-preview.active {
+            display: block;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .file-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .file-details h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+
+        .file-details p {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid white;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Results Section */
+        .results-section {
+            display: grid;
+            gap: 30px;
+        }
+
+        .welcome-card {
+            background: white;
+            border-radius: 16px;
+            padding: 60px;
+            text-align: center;
+            box-shadow: 0 10px 40px var(--shadow-lg);
+        }
+
+        .welcome-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        .welcome-card h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 12px;
+        }
+
+        .welcome-card p {
+            font-size: 16px;
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* Progress Bar */
+        .progress-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 40px var(--shadow-lg);
+            display: none;
+        }
+
+        .progress-card.active {
+            display: block;
+        }
+
+        .progress-step {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            background: var(--light);
+            transition: all 0.3s;
+        }
+
+        .progress-step.active {
+            background: rgba(37, 99, 235, 0.1);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .progress-step.completed {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success-color);
+        }
+
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .step-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+
+        .step-info p {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* Report Tabs */
+        .report-tabs {
+            display: none;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        .report-tabs.active {
+            display: block;
+        }
+
+        .tabs-header {
+            display: flex;
+            background: var(--light);
+            border-bottom: 2px solid var(--border);
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            padding: 16px 24px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #64748b;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            white-space: nowrap;
+            font-family: inherit;
+        }
+
+        .tab-btn:hover {
+            color: var(--primary-color);
+            background: white;
+        }
+
+        .tab-btn.active {
+            color: var(--primary-color);
+            background: white;
+            border-bottom-color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 30px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .report-section {
+            margin-bottom: 30px;
+        }
+
+        .report-section h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .report-section h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark);
+            margin: 16px 0 12px 0;
+        }
+
+        .report-section p {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+
+        .report-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .report-section li {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.8;
+            padding-left: 24px;
+            position: relative;
+            margin-bottom: 8px;
+        }
+
+        .report-section li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+
+        .badge-high {
+            background: #ef444420;
+            color: var(--danger-color);
+        }
+
+        .badge-medium {
+            background: #f59e0b20;
+            color: var(--warning-color);
+        }
+
+        .badge-low {
+            background: #10b98120;
+            color: var(--success-color);
+        }
+
+        .diagnosis-card {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(6, 182, 212, 0.05));
+            border-left: 4px solid var(--primary-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+        }
+
+        .download-section {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            padding: 20px;
+            background: var(--light);
+            border-radius: 10px;
+        }
+
+        .btn-download {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: inherit;
+        }
+
+        .btn-outline {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .header-left {
+                flex-direction: column;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--light);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #cbd5e1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <div class="logo">🏥</div>
+                <div class="header-title">
+                    <h1>Medical Diagnosis AI</h1>
+                    <p>Advanced Healthcare Intelligence System</p>
+                </div>
+            </div>
+            <div class="status-badge">
+                System Ready
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-grid">
+            <!-- Upload Section -->
+            <div class="upload-card">
+                <h2 class="card-title">Upload Medical Report</h2>
+                
+                <div class="form-group">
+                    <label class="form-label">Patient Name</label>
+                    <input type="text" id="patientName" class="form-input" placeholder="Enter patient name">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Medical Report (PDF or TXT)</label>
+                    <div class="file-upload" id="fileUpload">
+                        <div class="upload-icon">📄</div>
+                        <p class="upload-text"><strong>Click to upload</strong> or drag and drop</p>
+                        <p class="upload-hint">PDF or TXT file (max 10MB)</p>
+                    </div>
+                    <input type="file" id="fileInput" class="file-input" accept=".pdf,.txt">
+                    
+                    <div class="file-preview" id="filePreview">
+                        <div class="file-info">
+                            <div class="file-icon" id="fileIcon">📄</div>
+                            <div class="file-details">
+                                <h4 id="fileName">No file selected</h4>
+                                <p id="fileSize">0 KB</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" id="analyzeBtn" disabled>
+                    <span id="btnText">Analyze Report</span>
+                </button>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <!-- Welcome Card -->
+                <div class="welcome-card" id="welcomeCard">
+                    <div class="welcome-icon">🩺</div>
+                    <h2>Welcome to Medical Diagnosis AI</h2>
+                    <p>Upload a medical report to get started with comprehensive AI-powered analysis from multiple specialist perspectives.</p>
+                </div>
+
+                <!-- Progress Card -->
+                <div class="progress-card" id="progressCard">
+                    <h2 class="card-title">Analysis Progress</h2>
+                    
+                    <div class="progress-step" id="step1">
+                        <div class="step-icon">📖</div>
+                        <div class="step-info">
+                            <h4>Reading Medical Report</h4>
+                            <p>Extracting and processing document content</p>
+                        </div>
+                    </div>
+
+                    <div class="progress-step" id="step2">
+                        <div class="step-icon">🎯</div>
+                        <div class="step-info">
+                            <h4>Intelligent Triage</h4>
+                            <p>Selecting optimal specialist consultations</p>
+                        </div>
+                    </div>
+
+                    <div class="progress-step" id="step3">
+                        <div class="step-icon">🫀</div>
+                        <div class="step-info">
+                            <h4>Specialist Analysis</h4>
+                            <p>Running selected specialist assessments</p>
+                        </div>
+                    </div>
+
+                    <div class="progress-step" id="step4">
+                        <div class="step-icon">🛡️</div>
+                        <div class="step-info">
+                            <h4>Validation Check</h4>
+                            <p>Verifying diagnosis accuracy</p>
+                        </div>
+                    </div>
+
+                    <div class="progress-step" id="step5">
+                        <div class="step-icon">👥</div>
+                        <div class="step-info">
+                            <h4>Multidisciplinary Team Synthesis</h4>
+                            <p>Generating integrated diagnosis</p>
+                        </div>
+                    </div>
+
+                    <div class="progress-step" id="step6">
+                        <div class="step-icon">📝</div>
+                        <div class="step-info">
+                            <h4>Generating Reports</h4>
+                            <p>Creating comprehensive documentation</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Report Tabs -->
+                <div class="report-tabs" id="reportTabs">
+                    <div class="tabs-header">
+                        <button class="tab-btn active" data-tab="final">👥 Final Diagnosis</button>
+                        <button class="tab-btn" data-tab="cardio">🫀 Cardiologist</button>
+                        <button class="tab-btn" data-tab="psych">🧠 Psychologist</button>
+                        <button class="tab-btn" data-tab="pulmo">🫁 Pulmonologist</button>
+                    </div>
+
+                    <div class="tab-content active" id="tab-final">
+                        <div id="finalReport">
+                            <!-- Final diagnosis will be populated here -->
+                        </div>
+                        <div class="download-section">
+                            <button class="btn-download btn-primary" onclick="downloadReport('pdf')" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px 24px; font-weight: 600;">
+                                📄 Download PDF Report
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="tab-cardio">
+                        <div id="cardioReport">
+                            <!-- Cardiology report will be populated here -->
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="tab-psych">
+                        <div id="psychReport">
+                            <!-- Psychology report will be populated here -->
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="tab-pulmo">
+                        <div id="pulmoReport">
+                            <!-- Pulmonology report will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let selectedFile = null;
+        let analysisResults = null;
+
+        // File upload handling
+        const fileUpload = document.getElementById('fileUpload');
+        const fileInput = document.getElementById('fileInput');
+        const filePreview = document.getElementById('filePreview');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const patientName = document.getElementById('patientName');
+
+        fileUpload.addEventListener('click', () => fileInput.click());
+
+        fileUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUpload.classList.add('dragover');
+        });
+
+        fileUpload.addEventListener('dragleave', () => {
+            fileUpload.classList.remove('dragover');
+        });
+
+        fileUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUpload.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            const validTypes = ['application/pdf', 'text/plain'];
+            const maxSize = 10 * 1024 * 1024; // 10MB
+
+            if (!validTypes.includes(file.type)) {
+                alert('Please upload a PDF or TXT file');
+                return;
+            }
+
+            if (file.size > maxSize) {
+                alert('File size must be less than 10MB');
+                return;
+            }
+
+            selectedFile = file;
+            
+            // Update preview
+            document.getElementById('fileName').textContent = file.name;
+            document.getElementById('fileSize').textContent = (file.size / 1024).toFixed(2) + ' KB';
+            document.getElementById('fileIcon').textContent = file.type.includes('pdf') ? '📕' : '📄';
+            filePreview.classList.add('active');
+            
+            // Enable analyze button if patient name is filled
+            if (patientName.value.trim()) {
+                analyzeBtn.disabled = false;
+            }
+        }
+
+        patientName.addEventListener('input', () => {
+            if (selectedFile && patientName.value.trim()) {
+                analyzeBtn.disabled = false;
+            } else {
+                analyzeBtn.disabled = true;
+            }
+        });
+
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tab = btn.dataset.tab;
+                
+                // Update buttons
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Update content
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(`tab-${tab}`).classList.add('active');
+            });
+        });
+
+        // Analysis
+        analyzeBtn.addEventListener('click', async () => {
+            if (!selectedFile || !patientName.value.trim()) return;
+            
+            // Disable button
+            analyzeBtn.disabled = true;
+            document.getElementById('btnText').innerHTML = '<div class="btn-spinner"></div> Analyzing...';
+            
+            // Hide welcome, show progress
+            document.getElementById('welcomeCard').style.display = 'none';
+            document.getElementById('progressCard').classList.add('active');
+            document.getElementById('reportTabs').classList.remove('active');
+            
+            // Simulate progress
+            await simulateProgress();
+            
+            // Call backend API
+            await analyzeReport();
+        });
+
+        async function simulateProgress() {
+            const steps = ['step1', 'step2', 'step3', 'step4', 'step5', 'step6'];
+            
+            for (let i = 0; i < steps.length; i++) {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                document.getElementById(steps[i]).classList.add('active');
+                
+                if (i > 0) {
+                    document.getElementById(steps[i-1]).classList.remove('active');
+                    document.getElementById(steps[i-1]).classList.add('completed');
+                }
+            }
+            
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            document.getElementById(steps[steps.length-1]).classList.remove('active');
+            document.getElementById(steps[steps.length-1]).classList.add('completed');
+        }
+
+        async function analyzeReport() {
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+            formData.append('patientName', patientName.value.trim());
+            
+            try {
+                const response = await fetch('http://localhost:5000/analyze', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Analysis failed');
+                }
+                
+                analysisResults = await response.json();
+                displayResults();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Analysis failed. Please make sure the backend server is running on port 5000.');
+                resetUI();
+            }
+        }
+
+        function displayResults() {
+            // Hide progress, show results
+            document.getElementById('progressCard').classList.remove('active');
+            document.getElementById('reportTabs').classList.add('active');
+            
+            // Populate reports
+            populateFinalReport(analysisResults.final_diagnosis);
+            populateCardioReport(analysisResults.specialist_reports.Cardiologist);
+            populatePsychReport(analysisResults.specialist_reports.Psychologist);
+            populatePulmoReport(analysisResults.specialist_reports.Pulmonologist);
+            
+            // Reset button
+            analyzeBtn.disabled = false;
+            document.getElementById('btnText').textContent = 'Analyze Another Report';
+        }
+
+        function populateFinalReport(diagnosis) {
+            const container = document.getElementById('finalReport');
+            
+            // Helper function for safe access
+            const safe = (obj, key, def = 'N/A') => {
+                try {
+                    return obj && obj[key] !== undefined && obj[key] !== null ? obj[key] : def;
+                } catch {
+                    return def;
+                }
+            };
+            
+            // Check if we have diagnosis data
+            if (!diagnosis || typeof diagnosis !== 'object') {
+                container.innerHTML = '<div class="diagnosis-card"><p>Final diagnosis data not available.</p></div>';
+                return;
+            }
+            
+            let html = '';
+            
+            // Primary Diagnosis
+            const primary = diagnosis.primary_diagnosis;
+            if (primary && typeof primary === 'object') {
+                const evidence = Array.isArray(primary.supporting_evidence) ? primary.supporting_evidence : [];
+                html += `
+                    <div class="diagnosis-card">
+                        <h3>🎯 Primary Diagnosis</h3>
+                        <h4>${safe(primary, 'condition')}</h4>
+                        <p><span class="badge badge-${(safe(primary, 'confidence', 'medium')).toLowerCase()}">${safe(primary, 'confidence')} Confidence</span></p>
+                        ${primary.specialist_consensus ? `<p><strong>Specialist Consensus:</strong> ${primary.specialist_consensus}</p>` : ''}
+                        ${evidence.length > 0 ? `
+                            <h4>Supporting Evidence:</h4>
+                            <ul>
+                                ${evidence.map(e => `<li>${e}</li>`).join('')}
+                            </ul>
+                        ` : ''}
+                    </div>
+                `;
+            }
+            
+            // Differential Diagnoses
+            const differentials = diagnosis.differential_diagnoses;
+            if (differentials && Array.isArray(differentials) && differentials.length > 0) {
+                html += `
+                    <div class="report-section">
+                        <h3>🔍 Differential Diagnoses</h3>
+                        ${differentials.map((d, i) => `
+                            <h4>${i + 1}. ${safe(d, 'condition')} <span class="badge badge-${(safe(d, 'likelihood', 'medium')).toLowerCase()}">${safe(d, 'likelihood')} Likelihood</span></h4>
+                            ${d.reasoning ? `<p><strong>Reasoning:</strong> ${d.reasoning}</p>` : ''}
+                            ${d.ruling_out_strategy ? `<p><strong>Ruling Out Strategy:</strong> ${d.ruling_out_strategy}</p>` : ''}
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            // Treatment Plan
+            const treatment = diagnosis.integrated_treatment_plan;
+            if (treatment && typeof treatment === 'object') {
+                html += `<div class="report-section"><h3>💊 Integrated Treatment Plan</h3>`;
+                
+                if (Array.isArray(treatment.immediate_actions) && treatment.immediate_actions.length > 0) {
+                    html += `
+                        <h4>Immediate Actions</h4>
+                        <ul>${treatment.immediate_actions.map(a => `<li>${a}</li>`).join('')}</ul>
+                    `;
+                }
+                
+                if (Array.isArray(treatment.short_term_plan) && treatment.short_term_plan.length > 0) {
+                    html += `
+                        <h4>Short-term Plan (1-3 months)</h4>
+                        <ul>${treatment.short_term_plan.map(p => `<li>${p}</li>`).join('')}</ul>
+                    `;
+                }
+                
+                if (Array.isArray(treatment.long_term_management) && treatment.long_term_management.length > 0) {
+                    html += `
+                        <h4>Long-term Management</h4>
+                        <ul>${treatment.long_term_management.map(m => `<li>${m}</li>`).join('')}</ul>
+                    `;
+                }
+                
+                html += `</div>`;
+            }
+            
+            // Prognosis
+            const prognosis = diagnosis.prognosis;
+            if (prognosis && typeof prognosis === 'object') {
+                html += `
+                    <div class="report-section">
+                        <h3>📊 Prognosis</h3>
+                        ${prognosis.short_term ? `<p><strong>Short-term:</strong> ${prognosis.short_term}</p>` : ''}
+                        ${prognosis.long_term ? `<p><strong>Long-term:</strong> ${prognosis.long_term}</p>` : ''}
+                    </div>
+                `;
+            }
+            
+            // If nothing was rendered, show fallback
+            if (!html) {
+                html = `
+                    <div class="diagnosis-card">
+                        <p>Diagnosis data structure is unexpected. Showing raw data:</p>
+                        <pre style="background: #f5f5f5; padding: 15px; border-radius: 8px; overflow-x: auto;">${JSON.stringify(diagnosis, null, 2)}</pre>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
+        }
+
+        function populateCardioReport(report) {
+            const container = document.getElementById('cardioReport');
+            console.log('Cardiologist report:', report); // Debug
+            
+            if (!report || typeof report !== 'object') {
+                container.innerHTML = '<div class="report-section"><p>No cardiologist report available.</p></div>';
+                return;
+            }
+            
+            // Check if specialist was skipped
+            if (report.note && report.note.includes('Not consulted')) {
+                container.innerHTML = `
+                    <div class="report-section">
+                        <p><em>❌ Cardiologist not consulted based on intelligent triage.</em></p>
+                        <p>The system determined this specialty was not needed for this case.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            
+            // Show reasoning chain if available (NEW!)
+            if (report.reasoning_chain && Array.isArray(report.reasoning_chain)) {
+                html += `
+                    <div class="report-section">
+                        <h3>🧠 Clinical Reasoning Process</h3>
+                        ${report.reasoning_chain.map((step, i) => `
+                            <div style="margin-bottom: 15px; padding: 12px; background: #f8f9ff; border-radius: 8px; border-left: 4px solid #667eea;">
+                                <p style="margin: 0 0 8px 0;"><strong>Step ${step.step}:</strong></p>
+                                <p style="margin: 0 0 4px 0;"><strong>Observation:</strong> ${step.observation || 'N/A'}</p>
+                                ${step.evidence_quote ? `<p style="margin: 0 0 4px 0; font-size: 0.9em; color: #666;"><em>"${step.evidence_quote}"</em></p>` : ''}
+                                <p style="margin: 0 0 4px 0;"><strong>Inference:</strong> ${step.inference || 'N/A'}</p>
+                                <p style="margin: 0;"><strong>Confidence:</strong> <span class="badge badge-${(step.confidence || 'medium').toLowerCase()}">${step.confidence || 'N/A'}</span></p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            // Findings (handle both old and new structure)
+            if (report.findings && Array.isArray(report.findings)) {
+                html += `
+                    <div class="report-section">
+                        <h3>Clinical Findings</h3>
+                        ${report.findings.map(f => `
+                            <div style="margin-bottom: 15px; padding: 10px; background: #fff; border-radius: 6px; border: 1px solid #e0e0e0;">
+                                <h4 style="margin: 0 0 8px 0;">${f.finding || f.diagnosis || 'N/A'} 
+                                    ${f.confidence ? `<span class="badge badge-${(f.confidence || 'medium').toLowerCase()}">${f.confidence}</span>` : ''}
+                                </h4>
+                                ${f.clinical_significance ? `<p style="margin: 0 0 8px 0;"><strong>Clinical Significance:</strong> ${f.clinical_significance}</p>` : ''}
+                                ${f.evidence && Array.isArray(f.evidence) && f.evidence.length > 0 ? `
+                                    <p style="margin: 0 0 4px 0;"><strong>Evidence:</strong></p>
+                                    <ul style="margin: 0; padding-left: 20px;">
+                                        ${f.evidence.map(e => `<li>${e}</li>`).join('')}
+                                    </ul>
+                                ` : ''}
+                                ${f.evidence_from_report ? `<p style="margin: 4px 0 0 0; font-size: 0.9em; color: #666;"><em>From report: "${f.evidence_from_report}"</em></p>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            // Fallback: show raw JSON if no structured display
+            if (!html || html.trim() === '') {
+                console.warn('No structured data found, showing JSON');
+                html = `
+                    <div class="report-section">
+                        <h3>Report Data (JSON)</h3>
+                        <pre style="background: #f5f5f5; padding: 15px; border-radius: 8px; overflow-x: auto; font-size: 0.85em; white-space: pre-wrap;">${JSON.stringify(report, null, 2)}</pre>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
+        }
+
+        function populatePsychReport(report) {
+            const container = document.getElementById('psychReport');
+            console.log('Psychologist report:', report); // Debug
+            
+            if (!report || typeof report !== 'object') {
+                container.innerHTML = '<div class="report-section"><p>No psychologist report available.</p></div>';
+                return;
+            }
+            
+            // Check if specialist was skipped
+            if (report.note && report.note.includes('Not consulted')) {
+                container.innerHTML = `
+                    <div class="report-section">
+                        <p><em>❌ Psychologist not consulted based on intelligent triage.</em></p>
+                        <p>The system determined this specialty was not needed for this case.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            
+            // Show reasoning chain
+            if (report.reasoning_chain && Array.isArray(report.reasoning_chain)) {
+                html += `
+                    <div class="report-section">
+                        <h3>🧠 Clinical Reasoning Process</h3>
+                        ${report.reasoning_chain.map((step, i) => `
+                            <div style="margin-bottom: 15px; padding: 12px; background: #f8f9ff; border-radius: 8px; border-left: 4px solid #667eea;">
+                                <p style="margin: 0 0 8px 0;"><strong>Step ${step.step}:</strong></p>
+                                <p style="margin: 0 0 4px 0;"><strong>Observation:</strong> ${step.observation || 'N/A'}</p>
+                                <p style="margin: 0 0 4px 0;"><strong>Inference:</strong> ${step.inference || 'N/A'}</p>
+                                <p style="margin: 0;"><strong>Confidence:</strong> <span class="badge badge-${(step.confidence || 'medium').toLowerCase()}">${step.confidence || 'N/A'}</span></p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            // Psychological diagnoses
+            if (report.psychological_diagnoses && Array.isArray(report.psychological_diagnoses)) {
+                html += `
+                    <div class="report-section">
+                        <h3>Psychological Diagnoses</h3>
+                        ${report.psychological_diagnoses.map(d => `
+                            <div style="margin-bottom: 15px; padding: 10px; background: #fff; border-radius: 6px; border: 1px solid #e0e0e0;">
+                                <h4 style="margin: 0 0 8px 0;">${d.diagnosis || 'N/A'} 
+                                    ${d.severity ? `<span class="badge badge-${(d.severity || 'moderate').toLowerCase()}">${d.severity}</span>` : ''}
+                                </h4>
+                                ${d.confidence ? `<p style="margin: 0 0 8px 0;"><strong>Confidence:</strong> <span class="badge badge-${(d.confidence || 'medium').toLowerCase()}">${d.confidence}</span></p>` : ''}
+                                ${d.dsm5_criteria_met && Array.isArray(d.dsm5_criteria_met) && d.dsm5_criteria_met.length > 0 ? `
+                                    <p style="margin: 0 0 4px 0;"><strong>DSM-5 Criteria Met:</strong></p>
+                                    <ul style="margin: 0; padding-left: 20px;">
+                                        ${d.dsm5_criteria_met.map(c => `<li>${c}</li>`).join('')}
+                                    </ul>
+                                ` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            // Fallback: show JSON
+            if (!html || html.trim() === '') {
+                console.warn('No structured data found, showing JSON');
+                html = `
+                    <div class="report-section">
+                        <h3>Report Data (JSON)</h3>
+                        <pre style="background: #f5f5f5; padding: 15px; border-radius: 8px; overflow-x: auto; font-size: 0.85em; white-space: pre-wrap;">${JSON.stringify(report, null, 2)}</pre>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
+        }
+
+        function populatePulmoReport(report) {
+            const container = document.getElementById('pulmoReport');
+            console.log('Pulmonologist report:', report); // Debug
+            
+            if (!report || typeof report !== 'object') {
+                container.innerHTML = '<div class="report-section"><p>No pulmonologist report available.</p></div>';
+                return;
+            }
+            
+            // Check if specialist was skipped
+            if (report.note && report.note.includes('Not consulted')) {
+                container.innerHTML = `
+                    <div class="report-section">
+                        <p><em>❌ Pulmonologist not consulted based on intelligent triage.</em></p>
+                        <p>The system determined this specialty was not needed for this case.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            
+            // Show reasoning chain if available (SAME AS CARDIOLOGIST!)
+            if (report.reasoning_chain && Array.isArray(report.reasoning_chain)) {
+                html += `
+                    <div class="report-section">
+                        <h3>🧠 Clinical Reasoning Process</h3>
+                        ${report.reasoning_chain.map((step, i) => `
+                            <div style="margin-bottom: 15px; padding: 12px; background: #f8f9ff; border-radius: 8px; border-left: 4px solid #667eea;">
+                                <p style="margin: 0 0 8px 0;"><strong>Step ${step.step}:</strong></p>
+                                <p style="margin: 0 0 4px 0;"><strong>Observation:</strong> ${step.observation || 'N/A'}</p>
+                                ${step.evidence_quote ? `<p style="margin: 0 0 4px 0; font-size: 0.9em; color: #666;"><em>"${step.evidence_quote}"</em></p>` : ''}
+                                <p style="margin: 0 0 4px 0;"><strong>Inference:</strong> ${step.inference || 'N/A'}</p>
+                                <p style="margin: 0;"><strong>Confidence:</strong> <span class="badge badge-${(step.confidence || 'medium').toLowerCase()}">${step.confidence || 'N/A'}</span></p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            // Respiratory findings
+            if (report.respiratory_findings && Array.isArray(report.respiratory_findings)) {
+                html += `
+                    <div class="report-section">
+                        <h3>Respiratory Findings</h3>
+                        ${report.respiratory_findings.map(f => `
+                            <div style="margin-bottom: 15px; padding: 10px; background: #fff; border-radius: 6px; border: 1px solid #e0e0e0;">
+                                <h4 style="margin: 0 0 8px 0;">${f.finding || 'N/A'} 
+                                    ${f.confidence ? `<span class="badge badge-${(f.confidence || 'medium').toLowerCase()}">${f.confidence}</span>` : ''}
+                                </h4>
+                                ${f.clinical_significance ? `<p style="margin: 0 0 8px 0;"><strong>Clinical Significance:</strong> ${f.clinical_significance}</p>` : ''}
+                                ${f.normal_vs_abnormal ? `<p style="margin: 0 0 8px 0;"><strong>Assessment:</strong> ${f.normal_vs_abnormal}</p>` : ''}
+                                ${f.supporting_evidence && Array.isArray(f.supporting_evidence) && f.supporting_evidence.length > 0 ? `
+                                    <p style="margin: 0 0 4px 0;"><strong>Supporting Evidence:</strong></p>
+                                    <ul style="margin: 0; padding-left: 20px;">
+                                        ${f.supporting_evidence.map(e => `<li>${e}</li>`).join('')}
+                                    </ul>
+                                ` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            // Pulmonary diagnoses
+            if (report.pulmonary_diagnoses && Array.isArray(report.pulmonary_diagnoses)) {
+                html += `
+                    <div class="report-section">
+                        <h3>Pulmonary Diagnoses</h3>
+                        ${report.pulmonary_diagnoses.map(d => `
+                            <div style="margin-bottom: 15px; padding: 10px; background: #fff; border-radius: 6px; border: 1px solid #e0e0e0;">
+                                <h4 style="margin: 0 0 8px 0;">${d.diagnosis || 'N/A'} 
+                                    ${d.likelihood ? `<span class="badge badge-${(d.likelihood || 'medium').toLowerCase()}">${d.likelihood} likelihood</span>` : ''}
+                                </h4>
+                                ${d.diagnostic_certainty ? `<p style="margin: 0 0 4px 0;"><strong>Certainty:</strong> ${d.diagnostic_certainty}</p>` : ''}
+                                ${d.evidence_for && Array.isArray(d.evidence_for) && d.evidence_for.length > 0 ? `
+                                    <p style="margin: 0 0 4px 0;"><strong>Evidence For:</strong></p>
+                                    <ul style="margin: 0; padding-left: 20px;">
+                                        ${d.evidence_for.map(e => `<li>${e}</li>`).join('')}
+                                    </ul>
+                                ` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            // Treatment plan
+            if (report.treatment_plan && Array.isArray(report.treatment_plan)) {
+                html += `
+                    <div class="report-section">
+                        <h3>Treatment Plan</h3>
+                        ${report.treatment_plan.map(t => `
+                            <div style="margin-bottom: 10px; padding: 10px; background: #fff; border-radius: 6px; border: 1px solid #e0e0e0;">
+                                <h4 style="margin: 0 0 5px 0;">${t.intervention || 'N/A'}</h4>
+                                ${t.evidence_basis ? `<p style="margin: 0 0 4px 0;"><strong>Evidence Basis:</strong> ${t.evidence_basis}</p>` : ''}
+                                ${t.monitoring ? `<p style="margin: 0;"><strong>Monitoring:</strong> ${t.monitoring}</p>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            // Fallback: show JSON
+            if (!html || html.trim() === '') {
+                console.warn('No structured data found, showing JSON');
+                html = `
+                    <div class="report-section">
+                        <h3>Report Data (JSON)</h3>
+                        <pre style="background: #f5f5f5; padding: 15px; border-radius: 8px; overflow-x: auto; font-size: 0.85em; white-space: pre-wrap;">${JSON.stringify(report, null, 2)}</pre>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
+        }
+
+        function downloadReport(format) {
+            if (!analysisResults) return;
+            
+            const filename = analysisResults.reports[format];
+            if (!filename) {
+                alert(`${format.toUpperCase()} report not available`);
+                return;
+            }
+            
+            // Download from backend
+            window.location.href = `http://localhost:5000/download/${filename}`;
+        }
+
+        function downloadBlob(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function resetUI() {
+            analyzeBtn.disabled = false;
+            document.getElementById('btnText').textContent = 'Analyze Report';
+            document.getElementById('progressCard').classList.remove('active');
+            document.getElementById('welcomeCard').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
